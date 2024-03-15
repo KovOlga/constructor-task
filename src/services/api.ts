@@ -25,3 +25,12 @@ export const getFact = (): Promise<any> => {
     },
   });
 };
+
+export const getAgeByName = (name: string): Promise<any> => {
+  return request(`https://api.agify.io/?name=${name}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};

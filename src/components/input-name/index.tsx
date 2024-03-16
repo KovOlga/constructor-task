@@ -6,8 +6,8 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 const regex = /\W+|\d/;
 
 const InputName: FC = () => {
-  const [name, setName] = useState("olga");
-  const [age, setAge] = useState(0);
+  const [name, setName] = useState("");
+  const [age, setAge] = useState<number | null>();
   const [enabled, setEnabled] = useState(false);
   const [isInputError, setIsInputError] = useState(false);
   const queryClient = useQueryClient();
@@ -26,14 +26,12 @@ const InputName: FC = () => {
   });
 
   const getAgeBtnClick = () => {
-    console.log("click");
     clearTimeout(timerId);
     if (isLoading) {
       queryClient.cancelQueries({ queryKey: ["age"] });
     }
     getAgeByName(name)
       .then((res) => {
-        console.log("res", res);
         setAge(res.age);
       })
       .catch((err: { error: string }) => {
@@ -43,7 +41,6 @@ const InputName: FC = () => {
 
   const countDownOnInputBlur = () => {
     timerId = setTimeout(() => {
-      console.log("timeout worked");
       setEnabled(true);
     }, 3000);
   };

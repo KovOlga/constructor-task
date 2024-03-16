@@ -26,6 +26,9 @@ const InputName: FC = () => {
   });
 
   const getAgeBtnClick = () => {
+    if (!name.trim()) {
+      return;
+    }
     clearTimeout(timerId);
     if (isLoading) {
       queryClient.cancelQueries({ queryKey: ["age"] });
@@ -40,6 +43,9 @@ const InputName: FC = () => {
   };
 
   const countDownOnInputBlur = () => {
+    if (!name.trim()) {
+      return;
+    }
     timerId = setTimeout(() => {
       setEnabled(true);
     }, 3000);

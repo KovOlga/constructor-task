@@ -34,3 +34,18 @@ export const getAgeByName = (name: string): Promise<any> => {
     },
   });
 };
+
+export const getAgeByNameWithDelay = (name: string): Promise<any> => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(
+        request(`https://api.agify.io/?name=${name}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+      );
+    }, 3000);
+  });
+};

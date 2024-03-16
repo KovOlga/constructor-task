@@ -1,12 +1,14 @@
-import { FC, useState } from "react";
-import { getAgeByName, getAgeByNameWithDelay } from "../../services/api";
+import { ChangeEvent, FC, useState } from "react";
+import { getAgeByName } from "../../services/api";
 import { Button, Div, FormItem, Group, Input } from "@vkontakte/vkui";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const InputName: FC = () => {
   const [name, setName] = useState("olga");
   const [age, setAge] = useState(0);
   const [enabled, setEnabled] = useState(false);
+  const queryClient = useQueryClient();
+  let timerId;
 
   const fetchVGV = async (name: string) => {
     console.log("res");
@@ -21,11 +23,12 @@ const InputName: FC = () => {
     enabled: enabled,
   });
 
-  let timerId;
-
   const getAgeBtnClick = () => {
     console.log("click");
     clearTimeout(timerId);
+    if (isLoading) {
+      queryClient.cancelQueries({ queryKey: ["age"] });
+    }
     getAgeByName(name).then((res) => {
       console.log("res", res);
       setAge(res.age);
@@ -40,8 +43,7 @@ const InputName: FC = () => {
   };
 
   /////////////////
-  const onInputChangesws = (e) => {
-    console.log("e", e);
+  const onInputChangesws = (e: ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
 

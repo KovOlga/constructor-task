@@ -3,7 +3,6 @@ interface IOptions {
   headers: {
     "Content-Type": "application/json";
   };
-  body?: string;
 }
 
 const getResponse = async (res: Response) => {
@@ -17,7 +16,7 @@ const request = (url: string, options: IOptions) => {
   return fetch(url, options).then(getResponse);
 };
 
-export const getFact = (): Promise<any> => {
+export const getFact = (): Promise<{ fact: string }> => {
   return request("https://catfact.ninja/fact", {
     method: "GET",
     headers: {
@@ -26,7 +25,7 @@ export const getFact = (): Promise<any> => {
   });
 };
 
-export const getAgeByName = (name: string): Promise<any> => {
+export const getAgeByName = (name: string): Promise<{ age: number }> => {
   return request(`https://api.agify.io/?name=${name}`, {
     method: "GET",
     headers: {
